@@ -2,9 +2,12 @@ import path from 'path';
 import fs from 'fs';
 import test from 'ava';
 import execa from 'execa';
+import {fileURLToPath} from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const cwd = path.join(__dirname, '..');
-const conf = path.join(__dirname, '..', 'browser', 'from-env.js');
+const conf = path.join(__dirname, '..', 'browser', 'from-env.cjs');
 const testsDirectory = path.join(__dirname, '..', 'browser', 'tests');
 
 for (const filename of fs.readdirSync(testsDirectory)) {
@@ -12,7 +15,7 @@ for (const filename of fs.readdirSync(testsDirectory)) {
 	const filepath = path.join(testsDirectory, filename);
 
 	test.serial(basename, async t => {
-		await t.notThrowsAsync(execa('karma', ['start', conf], {
+		await t.notThrowsAsync(execa('web-test-runner', ['start', conf], {
 			cwd,
 			env: {
 				...process.env,

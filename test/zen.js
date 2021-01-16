@@ -1,8 +1,11 @@
-require('../register')('zen-observable');
-const test = require('ava');
-const ZenObservable = require('zen-observable');
-const implementation = require('../implementation');
-const AnyObservable = require('..');
+import register from '../register.js';
+import test from 'ava';
+import ZenObservable from 'zen-observable';
+
+register('zen-observable');
+
+const implementation = import('../implementation.js');
+const AnyObservable = import('../index.js');
 
 test('main', t => {
 	t.is(AnyObservable, ZenObservable);

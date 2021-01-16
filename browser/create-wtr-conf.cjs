@@ -1,23 +1,19 @@
-'use strict';
-const arrify = require('arrify');
+import arrify from 'arrify';
 
 // Creates a `karma.conf` implementation that runs a specific set of files
-module.exports = function (files) {
+const createWtrConf = function (files) {
 	return karma => {
 		karma.set({
 			frameworks: [
-				'mocha',
-				'browserify'
+				'mocha'
 			],
 			files: arrify(files),
+			/*
 			preprocessors: {
 				'tests/*.js': [
-					'browserify'
 				]
 			},
-			browserify: {
-				debug: true
-			},
+			*/
 			customLaunchers: {
 				ChromeHeadlessNoSandbox: {
 					base: 'ChromeHeadless',
@@ -34,3 +30,5 @@ module.exports = function (files) {
 		});
 	};
 };
+
+export default createWtrConf;

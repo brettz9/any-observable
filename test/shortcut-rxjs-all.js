@@ -1,9 +1,9 @@
-import '../register/rxjs-all'; // eslint-disable-line import/no-unassigned-import
+import '../register/rxjs-all.js';
 import test from 'ava';
 import {Observable as RxJsObservable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import implementation from '../implementation';
-import AnyObservable from '..';
+import implementation from '../implementation.js';
+import AnyObservable from '../index.js';
 
 test('main', t => {
 	t.is(AnyObservable, RxJsObservable);

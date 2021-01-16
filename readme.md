@@ -19,7 +19,7 @@ $ npm install zen-observable
 ## Usage
 
 ```js
-const Observable = require('any-observable'); // Using `zen-observable` since it's installed
+import Observable from 'any-observable'; // Using `zen-observable` since it's installed
 
 Observable.of(1, 2).forEach(value => {
 	console.log(value);

@@ -1,18 +1,21 @@
-'use strict';
-module.exports = require('./loader')(global, loadImplementation);
+import loader from './loader.js';
+
+const register = loader(globalThis, loadImplementation);
+
+export default register;
 
 function loadImplementation(implementation) {
 	let finalImplementation;
 
-	if (implementation === 'global.Observable') {
-		// If no implementation or env specified use global.Observable
+	if (implementation === 'globalThis.Observable') {
+		// If no implementation or env specified use globalThis.Observable
 		finalImplementation = {
-			Observable: global.Observable,
-			implementation: 'global.Observable'
+			Observable: globalThis.Observable,
+			implementation: 'globalThis.Observable'
 		};
 	} else if (implementation) {
 		// If implementation specified, require it
-		const package_ = require(implementation);
+		const package_ = import(implementation);
 
 		finalImplementation = {
 			Observable: package_.Observable || package_.default || package_,
@@ -26,7 +29,7 @@ function loadImplementation(implementation) {
 	}
 
 	if (!finalImplementation) {
-		throw new Error('Cannot find any-observable implementation nor `global.Observable`. You must install polyfill or call `require(\'any-observable/register\') with your preferred implementation, for example, `require(\'any-observable/register\')(\'rxjs\')` on app load prior to any `require(\'any-observable\').');
+		throw new Error('Cannot find any-observable implementation nor `globalThis.Observable`. You must install polyfill or call `import(\'any-observable/register\') with your preferred implementation, for example, `(await import(\'any-observable/register\'))(\'rxjs\')` on app load prior to any `import(\'any-observable\').');
 	}
 
 	return finalImplementation;
@@ -41,6 +44,6 @@ function tryAutoDetect() {
 	for (const package_ of packages) {
 		try {
 			return loadImplementation(package_);
-		} catch (_) {}
+		} catch {}
 	}
 }

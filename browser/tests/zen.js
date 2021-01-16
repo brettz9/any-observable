@@ -1,8 +1,10 @@
-const assert = require('assert');
-const ZenObservable = require('zen-observable');
-require('../../register')('zen-observable', {Observable: ZenObservable});
+import assert from 'assert';
+import ZenObservable from 'zen-observable';
+import register from '../../register.js';
 
-const AnyObservable = require('../..');
+register('zen-observable', {Observable: ZenObservable});
+
+const AnyObservable = import('../../index.js');
 
 it('zen', () => {
 	assert.strictEqual(AnyObservable, ZenObservable);

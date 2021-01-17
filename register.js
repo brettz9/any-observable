@@ -4,7 +4,7 @@ const register = loader(globalThis, loadImplementation);
 
 export default register;
 
-function loadImplementation(implementation) {
+async function loadImplementation(implementation) {
 	let finalImplementation;
 
 	if (implementation === 'globalThis.Observable') {
@@ -15,7 +15,7 @@ function loadImplementation(implementation) {
 		};
 	} else if (implementation) {
 		// If implementation specified, require it
-		const package_ = import(implementation);
+		const package_ = await import(implementation);
 
 		finalImplementation = {
 			Observable: package_.Observable || package_.default || package_,
@@ -25,7 +25,7 @@ function loadImplementation(implementation) {
 		// Try to auto detect implementation. This is non-deterministic
 		// and should prefer other branches, but this is our last chance
 		// to load something without throwing error.
-		finalImplementation = tryAutoDetect();
+		finalImplementation = await tryAutoDetect();
 	}
 
 	if (!finalImplementation) {

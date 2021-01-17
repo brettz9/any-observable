@@ -2,10 +2,12 @@ import assert from 'assert';
 import ZenObservable from 'zen-observable';
 import register from '../../register.js';
 
-register('zen-observable', {Observable: ZenObservable});
+(async () => {
+	await register('zen-observable', {Observable: ZenObservable});
 
-const AnyObservable = import('../../index.js');
+	const AnyObservable = await import('../../index.js');
 
-it('zen', () => {
-	assert.strictEqual(AnyObservable, ZenObservable);
-});
+	it('zen', () => {
+		assert.strictEqual(AnyObservable, ZenObservable);
+	});
+})();

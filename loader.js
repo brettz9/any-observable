@@ -3,7 +3,7 @@ const REGISTRATION_KEY = Symbol('@@any-observable/REGISTRATION');
 let isRegistered;
 
 const loader = (global, loadImplementation) => {
-	return (implementation, options = {}) => {
+	return async (implementation, options = {}) => {
 		// Global registration unless explicitly `{global: false}`` in options (default true)
 		const registerGlobal = options.global !== false;
 
@@ -13,7 +13,7 @@ const loader = (global, loadImplementation) => {
 		}
 
 		if (isRegistered && implementation && isRegistered.implementation !== implementation) {
-			throw new Error(`any-observable already defined as \`${isRegistered.implementation}\`. You can only register an implementation before the first call to \`import('any-observable')\` and an implementation cannot be changed`);
+			throw new Error(`can't register ${implementation}; any-observable already defined as \`${isRegistered.implementation}\`. You can only register an implementation before the first call to \`import('any-observable')\` and an implementation cannot be changed`);
 		}
 
 		if (!isRegistered) {
@@ -24,7 +24,7 @@ const loader = (global, loadImplementation) => {
 					implementation
 				} :
 				// Require implementation if implementation is specified but not provided
-				loadImplementation(implementation);
+				await loadImplementation(implementation);
 
 			if (registerGlobal) {
 				// Register preference globally in case multiple installations

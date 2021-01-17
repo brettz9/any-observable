@@ -1,5 +1,8 @@
 import register from './register.js';
 
-const {Observable} = register();
+const observable = async () => {
+	const {Observable: AnyObservable} = await register();
+	return AnyObservable;
+};
 
-export default Observable;
+export default observable;
